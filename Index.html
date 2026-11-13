@@ -1,0 +1,62 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SEIFU VIDEO</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#000;color:white;font-family:Arial}
+header{position:fixed;top:0;width:100%;padding:15px;text-align:center;background:#111;z-index:5;font-size:22px;font-weight:bold}
+.feed{padding-top:55px}
+.video{height:calc(100dvh - 55px);position:relative;background:#171717;display:flex;align-items:center;justify-content:center}
+video{width:100%;height:100%;object-fit:cover}
+.upload{position:fixed;bottom:0;background:#111;width:100%;padding:12px;text-align:center;z-index:6}
+input{display:none}
+button{background:#ff1744;color:white;border:0;padding:12px 22px;border-radius:25px;font-size:16px}
+.actions{position:absolute;right:15px;bottom:100px;display:grid;gap:22px;text-align:center}
+.actions span{font-size:25px;cursor:pointer}
+.caption{position:absolute;bottom:75px;left:15px;font-size:15px}
+</style>
+</head>
+<body>
+<header>SEIFU VIDEO</header>
+<div class="feed" id="feed">
+<div class="video">
+<div style="text-align:center">🎬<br>SEIFU VIDEO<br>Upload your first video</div>
+<div class="actions">
+<span onclick="like(this)">❤️<br><small>0</small></span>
+<span>💬<br><small>Comment</small></span>
+<span>↗️<br><small>Share</small></span>
+</div>
+<div class="caption">@SEIFU_VIDEO</div>
+</div>
+</div>
+<div class="upload">
+<label for="file"><button>＋ Upload Video</button></label>
+<input id="file" type="file" accept="video/*" multiple>
+</div>
+<script>
+const feed=document.getElementById('feed');
+document.getElementById('file').onchange=function(){
+[...this.files].forEach(file=>{
+let url=URL.createObjectURL(file);
+let box=document.createElement('div');
+box.className='video';
+box.innerHTML=`<video src="${url}" controls loop playsinline></video>
+<div class="actions">
+<span onclick="like(this)">❤️<br><small>0</small></span>
+<span>💬<br><small>Comment</small></span>
+<span onclick="navigator.share?.({title:'SEIFU VIDEO',url:location.href})">↗️<br><small>Share</small></span>
+</div><div class="caption">@SEIFU_VIDEO</div>`;
+feed.appendChild(box);
+});
+};
+function like(el){
+let n=el.querySelector('small');
+n.textContent=Number(n.textContent)+1;
+}
+</script>
+</body>
+</html>
